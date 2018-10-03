@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  API_BASE: '',
+  API_BASE: 'http://localhost:4200',
   endpoints: {
     CONTINUE_PLAY_WITH_NAME: {
       url: '/api/continueplaywithname/',

@@ -79,7 +79,7 @@ export const startGame = (playerID) => {
                 // need to assign some random cards to all players
                 const cards = store.getState()['cards'];
                 const cardsLength = cards.length;
-                const minIndex = 0;
+                const minIndex = 1;
                 const playersInRoom = room.currentPlayers;
                 const randomCardsForPlayers = getRandomNumbersArray(cardsLength - 1, minIndex, playersInRoom.length, room.maxCardsPerPlayer);
                 for (let i = 0; i < playersInRoom.length; i++) {
@@ -216,15 +216,15 @@ export const getNewCard = (playerID) => {
             return room.roomID === roomID
         });
         if (room) {
-            if (room.turn !== playerID) {
-                return {
-                    valid: false,
-                    message: MOVE_NOT_ALLOWED
-                };
-            }
+            // if (room.turn !== playerID) {
+            //     return {
+            //         valid: false,
+            //         message: MOVE_NOT_ALLOWED
+            //     };
+            // }
             let cardsListToFilter = [];
             const cardsLength = cards.length;
-            const minIndex = 0;
+            const minIndex = 1;
             for (let i = 0; i < players.length; i++) {
                 if (room.currentPlayers.indexOf(players[i].playerID) >= 0) {
                     cardsListToFilter = cardsListToFilter.concat(players[i].currentCards);
@@ -298,12 +298,12 @@ export const playCard = (playerID, cardID) => {
             return room.roomID === roomID
         });
         if (room) {
-            if (room.turn !== playerID) {
-                return {
-                    valid: false,
-                    message: MOVE_NOT_ALLOWED
-                };
-            }
+            // if (room.turn !== playerID) {
+            //     return {
+            //         valid: false,
+            //         message: MOVE_NOT_ALLOWED
+            //     };
+            // }
             const topCardDetails = allCards.find((card) => { return card.cardID === room.topCard });
             const playedCardDetails = allCards.find((card) => { return card.cardID === cardID });
             let roomInfo = { ...room };
@@ -380,7 +380,7 @@ export const playCard = (playerID, cardID) => {
                 let nextPlayerInfo = { ...allPlayers.find((player) => { return player.playerID === nextPlayerID }) };
                 let cardsListToFilter = [];
                 const cardsLength = allCards.length;
-                const minIndex = 0;
+                const minIndex = 1;
                 for (let i = 0; i < allPlayers.length; i++) {
                     if (roomInfo.currentPlayers.indexOf(allPlayers[i].playerID) >= 0) {
                         cardsListToFilter = cardsListToFilter.concat(allPlayers[i].currentCards);
@@ -446,6 +446,6 @@ export const playCard = (playerID, cardID) => {
 export const getRandomCard = () => {
     const cards = store.getState()['cards'];
     const cardsLength = cards.length;
-    const minIndex = 0;
+    const minIndex = 1;
     return cards[getRandomNumber(cardsLength - 1, minIndex)]['cardID'];
 }

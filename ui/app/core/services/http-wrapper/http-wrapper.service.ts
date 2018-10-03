@@ -17,7 +17,7 @@ export class HttpWrapperService {
   constructor(private http: HttpClient) {
     if (!environment.production) {
       this.options = {
-        // withCredentials: true
+        withCredentials: true
       };
     }
   }
