@@ -1,0 +1,80 @@
+<div class="full-height container">
+    <div *ngIf="enterNameSection">
+        Enter Name
+        <input type="text" [(ngModel)]="playerName">
+        <button (click)="continueToMenuSelection()"> Continue</button>
+    </div>
+
+    <div *ngIf="menuSelectionSection">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#create">Create</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#join">Join</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div id="create" class="container tab-pane active">
+                <button (click)="createRoom()">Create Room</button>
+            </div>
+            <div id="join" class="container tab-pane fade">
+                <input type="text" [(ngModel)]="roomID">
+                <button (click)="joinRoom()">Join Room</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div *ngIf="waitingForPlayerSection">
+        Waiting for Admin to Start the Game
+        <br/> RoomID: {{roomID}}
+        <p *ngFor="let player of players">{{player.playerName}}</p>
+        <button *ngIf="canStartedBy===me.playerID" (click)="startGame()">Start Game</button>
+    </div>
+
+
+    <div *ngIf="playGameSection">
+        <div>
+            <span>ROOM id:</span>
+            <span>{{roomID}}</span>
+        </div>
+        <div class="play-choice-container">
+            <span class="get-new-card-container">
+                <button (click)="getNewCard()">Get New Card</button>
+            </span>
+            <span class="top-card-container">
+                TOP Card:
+                <app-card [cardID]="topCard?.cardID" [value]="topCard?.value" [suit]="topCard?.suit"></app-card>
+            </span>
+        </div>
+        <div class="playbox-container">
+            <span [ngClass]="(player.playerID==playerTurn)? 'playerturn-box':'player-box'" *ngFor="let player of players">
+                Player Name:
+                <b>{{player.playerName}}</b>
+                <br/>
+                <span *ngIf="me.playerID != player.playerID">
+                    <!-- <span *ngFor="let card of player.noOfCards">
+                        <app-card></app-card>
+                    </span> -->
+                    No of Cards: {{player.noOfCards.length}}
+                </span>
+                <span *ngIf="me.playerID === player.playerID">
+                    <span *ngFor="let card of myCards">
+                        <app-card (cardClicked)="playCard($event)" [cardID]="card.cardID" [value]="card.value" [suit]="card.suit"></app-card>
+                    </span>
+                </span>
+            </span>
+        </div>
+    </div>
+
+    <div *ngIf="finishGameSection">
+        GAME FINISHED
+        <br/> Ranking
+        <p *ngFor="let player of playersWinningOrder;let i = index">
+            {{i+1}}:{{player}}
+        </p>
+    </div>
+</div>

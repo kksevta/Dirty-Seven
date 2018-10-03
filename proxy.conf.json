@@ -1,0 +1,26 @@
+{
+    "/api/joinroom": {
+        "target": "http://localhost:3000",
+        "secure": false
+    },
+    "/api/startgame": {
+        "target": "http://localhost:3000",
+        "secure": false
+    },
+    "/api/continueplaywithname": {
+        "target": "http://localhost:3000",
+        "secure": false
+    },
+    "/api/createroom/": {
+        "target": "http://localhost:3000",
+        "secure": false
+    },
+    "/api/playcard/": {
+        "target": "http://localhost:3000",
+        "secure": false
+    },
+    "/api/getnewcard/": {
+        "target": "http://localhost:3000",
+        "secure": false
+    }
+}

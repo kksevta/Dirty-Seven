@@ -1,0 +1,33 @@
+.play-choice-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center
+}
+
+.get-new-card-container {
+    border: solid 1px;
+    width: 50%;
+}
+
+.top-card-container {
+    border: solid 1px;
+    width: 50%;
+}
+
+.playbox-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center
+}
+
+.player-box {
+    border: solid 1px;
+    width: 50%;
+}
+
+.playerturn-box {
+    border: solid 3px red;
+    width: 50%;
+}
