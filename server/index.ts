@@ -11,7 +11,7 @@ const port = config.serverPort;
 const corsOptions = config.corsOptions;
 const app = express();
 
-// app.use(express.static('public'))
+app.use(express.static('public'))
 
 app.use(cors(corsOptions));
 

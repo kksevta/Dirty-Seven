@@ -14,7 +14,7 @@ import { getAppState } from '@app/store/reducers/root.reducer';
 })
 export class AppWrapperComponent implements OnInit {
   ws: any;
-
+  hostName: any;
   enterNameSection = true;
   menuSelectionSection = false;
   waitingForPlayerSection = false;
@@ -33,7 +33,9 @@ export class AppWrapperComponent implements OnInit {
   topCard: any;
   canStartedBy: any;
   playersWinningOrder: any;
-  constructor(private appCoreService: AppCoreService, private store: Store<any>, private cdr: ChangeDetectorRef) { }
+  constructor(private appCoreService: AppCoreService, private store: Store<any>, private cdr: ChangeDetectorRef) {
+    this.hostName = window.location.hostname;
+  }
 
   ngOnInit() {
     this.playerName = localStorage.getItem('playerName');
@@ -96,7 +98,7 @@ export class AppWrapperComponent implements OnInit {
     this.store.select(getAuthTokenFromAppState).pipe(take(1)).subscribe((AT) => {
       token = AT;
     });
-    this.ws = new $WebSocket('ws://localhost:3001?auth-token=' + token);
+    this.ws = new $WebSocket('ws://' + this.hostName + ':3001?auth-token=' + token);
     this.ws.onMessage((msg: MessageEvent) => {
       this.store.dispatch(new SetLiveDataAction(JSON.parse(msg.data)));
     },
