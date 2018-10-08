@@ -54,7 +54,6 @@ export const getRoomStateWhenPlayerLeft = (room, playerID) => {
             }
         }
 
-
         if (roomInfo.canStartedBy === playerID && !roomInfo.started) {
             if (roomInfo.currentPlayers.length > 0) {
                 roomInfo = {
@@ -71,7 +70,6 @@ export const getRoomStateWhenPlayerLeft = (room, playerID) => {
 
         if (roomInfo.currentPlayers && room.started) {
             const playersNotWon = getPlayersNotWonInRoom(room);
-
             if (playersNotWon && playersNotWon.length === 1) {
                 roomInfo = {
                     ...roomInfo,
@@ -79,15 +77,6 @@ export const getRoomStateWhenPlayerLeft = (room, playerID) => {
                     finished: true
                 }
             }
-
-            // if (room.playerTurn === playerID && playersNotWon.length > 1) {
-            //     const playerIndex = playersNotWon.indexOf(playerID);
-            //     const playerTurnIndex = (playerIndex + 1) <= (playersNotWon.length - 1) ? (playerIndex + 1) : 0;
-            //     roomInfo = {
-            //         ...roomInfo,
-            //         playerTurn: playersNotWon[playerTurnIndex]
-            //     }
-            // }
             roomInfo = {
                 ...roomInfo,
                 playerTurn: getNextPlayerIDForTurn(room, playerID, playersNotWon)
@@ -104,7 +93,7 @@ export const getNextPlayerIDForTurn = (room, currentTurnPlayerID, playersNotWon)
         const playerTurnIndex = (playerIndex + 1) <= (playersNotWon.length - 1) ? (playerIndex + 1) : 0;
         return playersNotWon[playerTurnIndex]
     }
-    return currentTurnPlayerID;
+    return room.playerTurn;
 }
 
 export const getPlayersNotWonInRoom = (room) => {
