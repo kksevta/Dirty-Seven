@@ -14,8 +14,8 @@ export const authorizeToken = (req, res, next) => {
         if (err) {
             if (req.path === '/api/continueplaywithname/' && req.body.playerName) {
                 const payload = {
-                    // playerID: getNewPlayerID()
-                    playerID: req.body.playerName
+                    playerID: getNewPlayerID()
+                    // playerID: req.body.playerName
                 }
                 var token = jwt.sign(payload, JWTSecret);
                 res.locals.JWTDecoded = payload;

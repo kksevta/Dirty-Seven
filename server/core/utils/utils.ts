@@ -43,6 +43,22 @@ export const getRandomNumbersArray = (max, min, noOfArrays, arrayLength) => {
     return arrayCollection;
 }
 
+export const getRandomNumbersInArrayFormat = (max, min, noOfArrays, arrayLength) => {
+    const arrayCollection = [];
+    for (let i = 0; i < noOfArrays; i++) {
+        const collection = [];
+        const listToExclude = getCombinedList(arrayCollection);
+        for (let j = 0; j < arrayLength; j++) {
+            const randomNo = getRandomNumberExcludingList(max, min, listToExclude);
+            listToExclude.push(randomNo);
+            collection.push(randomNo);
+        }
+        arrayCollection.push(collection);
+    }
+    return arrayCollection;
+}
+
+
 const getCombinedList = (arrayCollection) => {
     let collection = [];
     for (let i = 0; i < arrayCollection.length; i++) {
