@@ -84,3 +84,25 @@ export const getMultipleRandomNumbersExcludingList = (max, min, listToExclude, c
     }
     return randomNoCollection;
 }
+
+
+export const getMultipleRandomNumbersExcludingListNew = (max, min, listToExclude, count) => {
+    if (count == 0) {
+        count = 1;
+    }
+    const randomNoCollection = [];
+    for (let i = 0; i < count; i++) {
+        const tempMax = max - 1;
+        let randomNo = Math.floor(Math.random() * (tempMax - min + 1) + min);
+        while (listToExclude.indexOf(randomNo) >= 0) {
+            if (randomNo < tempMax) {
+                randomNo++;
+            } else {
+                randomNo = min;
+            }
+        }
+        listToExclude.push(randomNo);
+        randomNoCollection.push(randomNo);
+    }
+    return randomNoCollection;
+}

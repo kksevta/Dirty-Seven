@@ -1,5 +1,5 @@
 import { getRandomNumber } from '../utils/utils';
-import { getRandomNumbersInArrayFormat } from '../utils/utils'
+import { getRandomNumbersInArrayFormat, getMultipleRandomNumbersExcludingList, getMultipleRandomNumbersExcludingListNew } from '../utils/utils'
 const minCardIDIndex = 1;
 
 export const getNewPlayerInfo = (playerName, playerID) => {
@@ -29,6 +29,22 @@ export const canPlayerStartGame = (playerID, room) => {
     return room.canStartedBy === playerID && room.currentPlayers > 1;
 }
 
+export const canPlayerGetNewCard = (playerID, allRooms) => {
+    return true;   // TO DO need to implement
+}
+
+export const getAllCardsInRoom = (room, allPlayers) => {
+    let cardsInRoom = [];
+    for (let i = 0; i < allPlayers.length; i++) {
+        if (room.currentPlayers.indexOf(allPlayers[i].playerID) >= 0) {
+            cardsInRoom = cardsInRoom.concat(allPlayers[i].currentCards);
+        }
+    }
+    cardsInRoom.push(room.topCard);
+
+    return cardsInRoom;
+}
+
 export const getInitialRandomCardsForPlayersInGame = (room, allCards) => {
     const cardsLength = allCards.length;
     const playersInRoom = room.currentPlayers;
@@ -37,6 +53,13 @@ export const getInitialRandomCardsForPlayersInGame = (room, allCards) => {
 
 export const getStartGameState = () => {
     return { started: true };
+}
+
+
+export const getNewCardsForPlayerAfterGet = (room, player, allPlayers, allCards) => {
+    const cardsLength = allCards.length;
+    const allCardsInRoom = getAllCardsInRoom(room, allPlayers);
+    return getMultipleRandomNumbersExcludingListNew(cardsLength, minCardIDIndex, allCardsInRoom, (room.sevenCounter) * 2);
 }
 
 export const getRoomStateWhenPlayerLeft = (room, playerID) => {
@@ -79,7 +102,7 @@ export const getRoomStateWhenPlayerLeft = (room, playerID) => {
             }
             roomInfo = {
                 ...roomInfo,
-                playerTurn: getNextPlayerIDForTurn(room, playerID, playersNotWon)
+                playerTurn: getNextPlayerIDForTurn(room, playerID)
             }
         }
         return roomInfo;
@@ -87,7 +110,8 @@ export const getRoomStateWhenPlayerLeft = (room, playerID) => {
     return room;
 }
 
-export const getNextPlayerIDForTurn = (room, currentTurnPlayerID, playersNotWon) => {
+export const getNextPlayerIDForTurn = (room, currentTurnPlayerID) => {
+    const playersNotWon = getPlayersNotWonInRoom(room);
     if (room.playerTurn === currentTurnPlayerID && playersNotWon.length > 1) {
         const playerIndex = playersNotWon.indexOf(currentTurnPlayerID);
         const playerTurnIndex = (playerIndex + 1) <= (playersNotWon.length - 1) ? (playerIndex + 1) : 0;
@@ -102,12 +126,98 @@ export const getPlayersNotWonInRoom = (room) => {
     })
 }
 
-
+export const getRoomFromPlayerID = (allRooms, playerID) => {
+    return allRooms.find((room) => {
+        return room.currentPlayers.indexOf(playerID) >= 0
+    });
+}
 export const getRandomCard = (allCards) => {
     const cardsLength = allCards.length;
     return allCards[getRandomNumber(cardsLength - 1, minCardIDIndex)]['cardID'];
 }
 
-export const isValidMove = () => {
+export const isValidMove = (room, player, allCards, playedCardID) => {
+    const topCardDetails = allCards.find((card) => { return card.cardID === room.topCard });
+    const playedCardDetails = allCards.find((card) => { return card.cardID === playedCardID });
+    if (player.currentCards.indexOf(playedCardID) < 0) {
+        return false;
+    }
 
+    if (room.playerTurn !== player.playerID) {
+        return false;
+    }
+
+    if (room.sevenCounter > 0 && playedCardDetails.value !== '7') {
+        return false
+    }
+
+    if (playedCardDetails.value !== 'K') {
+        if ((playedCardDetails.suit !== topCardDetails.suit) && (playedCardDetails.value !== topCardDetails.value)) {
+            return false
+        }
+    }
+    return true;
+}
+
+
+export const getUpdatedRoomStateWhenCardPlayed = (room, player, playedCardDetails) => {
+    let roomInfo = {
+        ...room,
+        topCard: playedCardDetails.cardID,
+        playerTurn: getNextPlayerIDForTurn(room, player.playerID)
+    }
+
+
+    if (playedCardDetails.value === '7') {
+        roomInfo = {
+            ...roomInfo,
+            sevenCounter: roomInfo.sevenCounter + 1
+        }
+    }
+
+    if (playedCardDetails.value === 'A') {
+        roomInfo = {
+            ...roomInfo,
+            playerTurn: getNextPlayerIDForTurn(room, roomInfo.playerTurn)
+        }
+    }
+
+    if (player.currentCards.length < 1) {
+        roomInfo = {
+            ...roomInfo,
+            winningOrder: roomInfo.winningOrder.concat(player.playerID)
+        }
+    }
+
+    if (roomInfo.winningOrder.length === roomInfo.currentPlayers.length - 1) {
+        roomInfo = {
+            ...roomInfo,
+            finished: true
+        }
+    }
+
+    return roomInfo;
+}
+
+export const getUpdatedCurrentPlayerStateWhenCardPlayed = (player, playedCardID) => {
+    const playedCardIndex = player.currentCards.indexOf(playedCardID);
+    let playerInfo = { ...player };
+    playerInfo = {
+        ...playerInfo,
+        currentCards: [
+            ...player.currentCards.slice(0, playedCardIndex),
+            ...player.currentCards.slice(playedCardIndex + 1)
+        ]
+    }
+    return playerInfo;
+}
+
+export const getUpdatedNextPlayerStateWhenCardPlayed = (room, nextPlayerInfo, allPlayers, allCards) => {
+    const allCardsInRoom = getAllCardsInRoom(room, allPlayers);
+    const cardsLength = allCards.length;
+    const randomNewCard = getMultipleRandomNumbersExcludingListNew(cardsLength, minCardIDIndex, allCardsInRoom, 1);
+    return nextPlayerInfo = {
+        ...nextPlayerInfo,
+        currentCards: nextPlayerInfo.currentCards.concat(randomNewCard)
+    }
 }

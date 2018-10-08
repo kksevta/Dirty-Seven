@@ -2,7 +2,6 @@ import { ADD_NEW_PLAYER, UPDATE_PLAYER, REMOVE_PLAYER } from '../actions/players
 const playerObject = {
     playerID: '',
     playerName: '',
-    roomID: '',
     playerCreatedAt: 0,
     currentCards: []
 };
