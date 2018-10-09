@@ -1,6 +1,6 @@
 import { store } from './redux-store/root-store';
 import config from './core/config/config.dev';
-import { playerLeft } from './core/controllers/app.past.controller';
+import { playerLeft } from './core/controllers/app.controller';
 const WebSocket = require('ws');
 var jwt = require('jsonwebtoken');
 const clients = [];

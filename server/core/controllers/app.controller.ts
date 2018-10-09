@@ -1,9 +1,8 @@
 import { store } from '../../redux-store/root-store';
-import { getRandomNumber, getRandomNumbersArray, getRandomNumberExcludingList, getMultipleRandomNumbersExcludingList } from '../utils/utils';
 import { addNewRoomAction, updateRoomAction } from '../../redux-store/actions/rooms-actions';
 import { updatePlayerAction, addNewPlayerAction, removePlayerAction } from '../../redux-store/actions/players-actions';
 import { ROOM_NOT_FOUND, NOT_AUTHORIZED_TO_START_GAME, MOVE_NOT_ALLOWED, NOT_ALLOWED_TO_JOIN_ROOM, OPERATION_NOT_ALLOWED } from '../config/app-constants';
-import { getNewPlayerInfo, getNewRoomInfo, canPlayerJoinRoom, getCurrentPlayersAfterJoin, canPlayerStartGame, getInitialRandomCardsForPlayersInGame, getStartGameState, getRoomStateWhenPlayerLeft, getRoomFromPlayerID, canPlayerGetNewCard, getAllCardsInRoom, getNewCardsForPlayerAfterGet, getNextPlayerIDForTurn, isValidMove, getUpdatedRoomStateWhenCardPlayed, getUpdatedCurrentPlayerStateWhenCardPlayed, getUpdatedNextPlayerStateWhenCardPlayed } from '../game/game-engine';
+import { getNewPlayerInfo, getNewRoomInfo, canPlayerJoinRoom, getCurrentPlayersAfterJoin, canPlayerStartGame, getInitialRandomCardsForPlayersInGame, getStartGameState, getRoomStateWhenPlayerLeft, getRoomFromPlayerID, canPlayerGetNewCard, getNewCardsForPlayerAfterGet, getNextPlayerIDForTurn, isValidMove, getUpdatedRoomStateWhenCardPlayed, getUpdatedCurrentPlayerStateWhenCardPlayed, getUpdatedNextPlayerStateWhenCardPlayed } from '../game/game-engine';
 // We are using redux to hold the current state of the game.
 // We might have to make change in this file only, if we need some DB for storing the state of the game 
 
@@ -211,11 +210,4 @@ export const playCard = (playerID, playedCardID) => {
         };
     }
 
-}
-
-export const getRandomCard = () => {
-    const cards = store.getState()['cards'];
-    const cardsLength = cards.length;
-    const minIndex = 1;
-    return cards[getRandomNumber(cardsLength - 1, minIndex)]['cardID'];
 }

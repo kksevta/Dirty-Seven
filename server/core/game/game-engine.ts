@@ -1,5 +1,5 @@
 import { getRandomNumber } from '../utils/utils';
-import { getRandomNumbersInArrayFormat, getMultipleRandomNumbersExcludingList, getMultipleRandomNumbersExcludingListNew } from '../utils/utils'
+import { getRandomNumbersInArrayFormat, getRandomNumbersExcludingList } from '../utils/utils'
 const minCardIDIndex = 1;
 
 export const getNewPlayerInfo = (playerName, playerID) => {
@@ -48,7 +48,7 @@ export const getAllCardsInRoom = (room, allPlayers) => {
 export const getInitialRandomCardsForPlayersInGame = (room, allCards) => {
     const cardsLength = allCards.length;
     const playersInRoom = room.currentPlayers;
-    return getRandomNumbersInArrayFormat(cardsLength - 1, minCardIDIndex, playersInRoom.length, room.maxCardsPerPlayer);
+    return getRandomNumbersInArrayFormat(cardsLength, minCardIDIndex, playersInRoom.length, room.maxCardsPerPlayer);
 }
 
 export const getStartGameState = () => {
@@ -59,7 +59,7 @@ export const getStartGameState = () => {
 export const getNewCardsForPlayerAfterGet = (room, player, allPlayers, allCards) => {
     const cardsLength = allCards.length;
     const allCardsInRoom = getAllCardsInRoom(room, allPlayers);
-    return getMultipleRandomNumbersExcludingListNew(cardsLength, minCardIDIndex, allCardsInRoom, (room.sevenCounter) * 2);
+    return getRandomNumbersExcludingList(cardsLength, minCardIDIndex, allCardsInRoom, (room.sevenCounter) * 2);
 }
 
 export const getRoomStateWhenPlayerLeft = (room, playerID) => {
@@ -215,7 +215,7 @@ export const getUpdatedCurrentPlayerStateWhenCardPlayed = (player, playedCardID)
 export const getUpdatedNextPlayerStateWhenCardPlayed = (room, nextPlayerInfo, allPlayers, allCards) => {
     const allCardsInRoom = getAllCardsInRoom(room, allPlayers);
     const cardsLength = allCards.length;
-    const randomNewCard = getMultipleRandomNumbersExcludingListNew(cardsLength, minCardIDIndex, allCardsInRoom, 1);
+    const randomNewCard = getRandomNumbersExcludingList(cardsLength, minCardIDIndex, allCardsInRoom, 1);
     return nextPlayerInfo = {
         ...nextPlayerInfo,
         currentCards: nextPlayerInfo.currentCards.concat(randomNewCard)
