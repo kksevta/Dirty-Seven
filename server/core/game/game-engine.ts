@@ -26,7 +26,7 @@ export const getCurrentPlayersAfterJoin = (room, playerID) => {
 }
 
 export const canPlayerStartGame = (playerID, room) => {
-    return room.canStartedBy === playerID && room.currentPlayers > 1;
+    return room.canStartedBy === playerID && room.currentPlayers.length > 1;
 }
 
 export const canPlayerGetNewCard = (playerID, allRooms) => {
