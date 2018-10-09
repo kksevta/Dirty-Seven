@@ -133,7 +133,7 @@ export const getRoomFromPlayerID = (allRooms, playerID) => {
 }
 export const getRandomCard = (allCards) => {
     const cardsLength = allCards.length;
-    return allCards[getRandomNumber(cardsLength - 1, minCardIDIndex)]['cardID'];
+    return allCards[getRandomNumber(cardsLength, minCardIDIndex)]['cardID'];
 }
 
 export const isValidMove = (room, player, allCards, playedCardID) => {
