@@ -17,7 +17,8 @@ const roomObject = {
     // waitingForPlayers: true, // Waiting for other players to join
     // adminLeft: false,  // if admin left we have to make finished true 
     maxCardsPerPlayer: 7,    // max no of cards per player can have 
-    sevenCounter: 0
+    sevenCounter: 0,
+    chatMessages: []
 }
 
 

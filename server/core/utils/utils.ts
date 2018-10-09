@@ -2,6 +2,11 @@ const uuidv1 = require('uuid/v1');
 export const getNewRoomID = () => {
     return Math.floor(100000 + Math.random() * 900000).toString();
 }
+
+export const getNewMessageID = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
 export const getNewPlayerID = () => {
     return uuidv1();
 }

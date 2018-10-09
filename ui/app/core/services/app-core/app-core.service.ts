@@ -64,4 +64,14 @@ export class AppCoreService {
     return this.httpWrapperService.postData(requestData);
   }
 
+
+  sendMessage(message) {
+    const requestData = {
+      url: environment.endpoints.SEND_MESSAGE.url,
+      body: {
+        message
+      }
+    };
+    return this.httpWrapperService.postData(requestData);
+  }
 }

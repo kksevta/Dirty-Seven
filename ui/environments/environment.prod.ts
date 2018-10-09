@@ -25,6 +25,10 @@ export const environment = {
     GET_NEW_CARD: {
       url: '/api/getnewcard/',
       type: 'POST'
+    },
+    SEND_MESSAGE: {
+      url: '/api/sendmessage/',
+      type: 'POST'
     }
   }
 };

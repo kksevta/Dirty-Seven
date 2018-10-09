@@ -1,4 +1,4 @@
-import { addNewPlayer, startGame, joinRoom, createRoom, playCard, getNewCard } from '../controllers/app.controller';
+import { addNewPlayer, startGame, joinRoom, createRoom, playCard, getNewCard, sendMessage } from '../controllers/app.controller';
 import { getNewRoomID } from '../utils/utils';
 export const handleRequest = (req, res, next) => {
     let requestResult = {
@@ -55,6 +55,14 @@ export const handleRequest = (req, res, next) => {
             playerID = res.locals.JWTDecoded.playerID;
             if (playerID) {
                 requestResult = getNewCard(playerID);
+            }
+            break;
+
+        case '/api/sendmessage/':
+            playerID = res.locals.JWTDecoded.playerID;
+            const message = req.body.message;
+            if (playerID && message) {
+                requestResult = sendMessage(playerID, message);
             }
             break;
     }

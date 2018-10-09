@@ -93,8 +93,10 @@ const getPlayerDataInRoom = (room, playerID, allPlayers, allCards) => {
             },
             topCard: topCard ? topCard[0] : {},
             myCards: getFilteredCards(currentPlayerObject['currentCards'], allCards),
-            playersWinningOrder: room.winningOrder,
-            gameFinished: room.finished
+            playersWinningOrder: getWinningOrderOfPlayers(room.winningOrder, allPlayers),
+            gameFinished: room.finished,
+            chatMessages: getChatMessages(room, allPlayers),
+            sevenCounter: room.sevenCounter
         }
     }
     return data;
@@ -118,4 +120,39 @@ const getMappedPlayersData = (playersIDS, players) => {
     return filterdPlayers.map((filteredPlayer) => {
         return { playerID: filteredPlayer.playerID, playerName: filteredPlayer.playerName, noOfCards: Array(filteredPlayer.currentCards.length).fill(1) }
     });
+}
+
+
+const getChatMessages = (room, allPlayers) => {
+    const chatMessages = [];
+    const playersInRoom = allPlayers.filter((player) => {
+        return room.currentPlayers.indexOf(player.playerID) >= 0
+    })
+    for (let i = 0; i < room.chatMessages.length; i++) {
+        const playerWhoSentMessage = playersInRoom.find((player) => {
+            return player.playerID === room.chatMessages[i].playerID;
+        })
+        const chatObject = {
+            playerName: playerWhoSentMessage.playerName,
+            message: room.chatMessages[i].message,
+            sentAt: room.chatMessages[i].sentAt
+        }
+        chatMessages.push(chatObject);
+    }
+    return chatMessages;
+}
+
+const getWinningOrderOfPlayers = (winningOrder, allPlayers) => {
+    const winningOrderData = [];
+    for (let i = 0; i < winningOrder.length; i++) {
+        const playerWon = allPlayers.find((player) => {
+            return player.playerID === winningOrder[i]
+        })
+        const winData = {
+            playerName: playerWon.playerName,
+            position: i + 1
+        }
+        winningOrderData.push(winData);
+    }
+    return winningOrderData;
 }

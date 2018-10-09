@@ -68,12 +68,28 @@
                 </span>
             </span>
         </div>
+
+        <br/>
+        <div style="border: 1px solid; ">
+            <h3>Debug Here</h3>
+            <div style="height: 200px;  overflow: auto;">
+                <div>
+                    <p *ngFor="let chat of chatMessages ">
+                        <b> {{chat?.playerName}}:</b>{{chat?.message}}
+                    </p>
+                </div>
+            </div>
+
+            <input type="text " (keyup.enter)="sendMessage() " [(ngModel)]="chatMessageToSend ">
+            <button (click)="sendMessage() ">Send</button>
+
+        </div>
     </div>
 
-    <div *ngIf="finishGameSection">
+    <div *ngIf="finishGameSection ">
         GAME FINISHED
         <br/> Ranking
-        <p *ngFor="let player of playersWinningOrder;let i = index">
+        <p *ngFor="let player of playersWinningOrder;let i=index">
             {{i+1}}:{{player}}
         </p>
     </div>

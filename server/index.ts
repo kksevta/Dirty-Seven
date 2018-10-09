@@ -43,6 +43,10 @@ app.post('/api/getnewcard', authorizeToken, handleRequest, (req, res) => {
   res.status(200).send({ status: 'Card Recieved' });
 });
 
+app.post('/api/sendmessage', authorizeToken, handleRequest, (req, res) => {
+  res.status(200).send({ status: 'Message Sent' });
+});
+
 app.get('/', (req, res) => {
   res.send('empty')
 });

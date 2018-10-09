@@ -3,6 +3,7 @@ import { addNewRoomAction, updateRoomAction } from '../../redux-store/actions/ro
 import { updatePlayerAction, addNewPlayerAction, removePlayerAction } from '../../redux-store/actions/players-actions';
 import { ROOM_NOT_FOUND, NOT_AUTHORIZED_TO_START_GAME, MOVE_NOT_ALLOWED, NOT_ALLOWED_TO_JOIN_ROOM, OPERATION_NOT_ALLOWED } from '../config/app-constants';
 import { getNewPlayerInfo, getNewRoomInfo, canPlayerJoinRoom, getCurrentPlayersAfterJoin, canPlayerStartGame, getInitialRandomCardsForPlayersInGame, getStartGameState, getRoomStateWhenPlayerLeft, getRoomFromPlayerID, canPlayerGetNewCard, getNewCardsForPlayerAfterGet, getNextPlayerIDForTurn, isValidMove, getUpdatedRoomStateWhenCardPlayed, getUpdatedCurrentPlayerStateWhenCardPlayed, getUpdatedNextPlayerStateWhenCardPlayed } from '../game/game-engine';
+import { getNewMessageID } from '../utils/utils';
 // We are using redux to hold the current state of the game.
 // We might have to make change in this file only, if we need some DB for storing the state of the game 
 
@@ -158,9 +159,6 @@ export const getNewCard = (playerID) => {
     }
 }
 
-
-
-
 export const playCard = (playerID, playedCardID) => {
     const state = store.getState();
     const allRooms = state['rooms'];
@@ -210,4 +208,24 @@ export const playCard = (playerID, playedCardID) => {
         };
     }
 
+}
+
+export const sendMessage = (playerID, message) => {
+    const allRooms = store.getState()['rooms'];
+    const room = getRoomFromPlayerID(allRooms, playerID);
+    store.dispatch(updateRoomAction({
+        roomID: room.roomID,
+        roomInfo: {
+            chatMessages: room.chatMessages.concat({
+                messageID: getNewMessageID(),
+                playerID,
+                message,
+                sentAt: +new Date()
+            })
+        }
+    }))
+    return {
+        valid: true,
+        message: ''
+    }
 }
