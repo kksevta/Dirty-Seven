@@ -15,37 +15,6 @@ export const getRandomNumber = (max, min) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export const getRandomNumberExcludingList = (max, min, listToExclude) => {
-    max = max - 1;
-    let randomNo = Math.floor(Math.random() * (max - min + 1) + min);
-
-    while (listToExclude.indexOf(randomNo) >= 0) {
-        if (randomNo < max) {
-            randomNo++;
-        } else {
-            randomNo = min;
-        }
-    }
-    return randomNo;
-}
-
-
-
-// export const getRandomNumbersArray = (max, min, noOfArrays, arrayLength) => {
-//     const arrayCollection = [];
-//     for (let i = 0; i < noOfArrays; i++) {
-//         const collection = [];
-//         const listToExclude = getCombinedList(arrayCollection);
-//         for (let j = 0; j < arrayLength; j++) {
-//             const randomNo = getRandomNumberExcludingList(max, min, listToExclude);
-//             listToExclude.push(randomNo);
-//             collection.push(randomNo);
-//         }
-//         arrayCollection.push(collection);
-//     }
-//     return arrayCollection;
-// }
-
 export const getRandomNumbersInArrayFormat = (max, min, noOfArrays, arrayLength) => {
     const arrayCollection = [];
     for (let i = 0; i < noOfArrays; i++) {
