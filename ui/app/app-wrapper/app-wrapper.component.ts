@@ -34,7 +34,7 @@ export class AppWrapperComponent implements OnInit {
     canStartedBy: any;
     playersWinningOrder: any;
     chatMessages: any;
-
+    sevenCounter: any;
     constructor(private appCoreService: AppCoreService, private store: Store<any>, private cdr: ChangeDetectorRef) {
         this.hostName = window.location.hostname;
     }
@@ -46,7 +46,7 @@ export class AppWrapperComponent implements OnInit {
             this.roomID = gameState ? gameState.roomID : '';
             this.players = gameState ? gameState.players : [];
             this.myCards = gameState ? gameState.myCards : [];
-            this.myCards = this.myCards.sort(function(a, b) {
+            this.myCards = this.myCards.sort(function (a, b) {
                 return a.suit > b.suit;
             });
             this.me = gameState ? gameState.me : {};
@@ -55,6 +55,7 @@ export class AppWrapperComponent implements OnInit {
             this.canStartedBy = gameState ? gameState.canStartedBy : {};
             this.playersWinningOrder = gameState ? gameState.playersWinningOrder : [];
             this.chatMessages = gameState ? gameState.chatMessages : [];
+            this.sevenCounter = gameState ? gameState.sevenCounter : 0;
             if (!this.playGameSection && gameState && gameState.gameStarted) {
                 this.changeSectionVisibility('play');
             }

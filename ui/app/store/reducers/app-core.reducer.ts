@@ -13,6 +13,7 @@ export interface IState {
     me: any;
     canStartedBy: any;
     chatMessages: any;
+    sevenCounter: any;
 }
 
 export const initialState: IState = {
@@ -27,7 +28,8 @@ export const initialState: IState = {
     gameStarted: false,
     me: {},
     canStartedBy: '',
-    chatMessages: []
+    chatMessages: [],
+    sevenCounter: 0
 };
 
 export function reducer(state = initialState, action: AppActions.Actions): IState {

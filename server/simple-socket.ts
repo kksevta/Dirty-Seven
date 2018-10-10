@@ -82,7 +82,7 @@ const getPlayerDataInRoom = (room, playerID, allPlayers, allCards) => {
     if (currentPlayerObject) {
         const topCard = getFilteredCards([room.topCard], allCards);
         data = {
-            players: getMappedPlayersData(room.currentPlayers, allPlayers),
+            players: getMappedPlayersData(room.currentPlayers, allPlayers, room.winningOrder),
             playerTurn: room.playerTurn,
             canStartedBy: room.canStartedBy,
             roomID: room.roomID,
@@ -115,10 +115,11 @@ const getFilteredPlayers = (playersIDS, players) => {
     });
 }
 
-const getMappedPlayersData = (playersIDS, players) => {
+const getMappedPlayersData = (playersIDS, players, winningOrder) => {
     const filterdPlayers = getFilteredPlayers(playersIDS, players);
     return filterdPlayers.map((filteredPlayer) => {
-        return { playerID: filteredPlayer.playerID, playerName: filteredPlayer.playerName, noOfCards: Array(filteredPlayer.currentCards.length).fill(1) }
+        const positionIndex = winningOrder.indexOf(filteredPlayer.playersID);
+        return { playerID: filteredPlayer.playerID, playerName: filteredPlayer.playerName, noOfCards: Array(filteredPlayer.currentCards.length).fill(1), position: positionIndex >= 0 ? positionIndex + 1 : 0 };
     });
 }
 
@@ -149,6 +150,7 @@ const getWinningOrderOfPlayers = (winningOrder, allPlayers) => {
             return player.playerID === winningOrder[i]
         })
         const winData = {
+            playerID: playerWon.playerID,
             playerName: playerWon.playerName,
             position: i + 1
         }
