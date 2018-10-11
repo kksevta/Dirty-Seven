@@ -54,7 +54,7 @@ export class AppWrapperComponent implements OnInit {
             this.topCard = gameState ? gameState.topCard : {};
             this.canStartedBy = gameState ? gameState.canStartedBy : {};
             this.playersWinningOrder = gameState ? gameState.playersWinningOrder : [];
-            this.chatMessages = gameState ? gameState.chatMessages : [];
+            this.chatMessages = gameState ? [...gameState.chatMessages].reverse() : [];
             this.sevenCounter = gameState ? gameState.sevenCounter : 0;
             if (!this.playGameSection && gameState && gameState.gameStarted) {
                 this.changeSectionVisibility('play');
@@ -147,7 +147,7 @@ export class AppWrapperComponent implements OnInit {
     sendMessage() {
         if (this.chatMessageToSend) {
             this.appCoreService.sendMessage(this.chatMessageToSend).subscribe((data) => {
-
+                this.chatMessageToSend = '';
             });
         }
     }

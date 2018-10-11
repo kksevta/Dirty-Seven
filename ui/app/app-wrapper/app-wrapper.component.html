@@ -75,12 +75,12 @@
         <br/>
         <div style="border: 1px solid; ">
             <h3>Debug Here</h3>
-            <div style="height: 200px;  overflow: auto;">
-                <div>
-                    <p *ngFor="let chat of chatMessages ">
-                        <b> {{chat?.playerName}}:</b>{{chat?.message}}
-                    </p>
+            <div style="height: 200px;  overflow: auto; display:flex;flex-direction:column-reverse;">
+
+                <div *ngFor="let chat of chatMessages ">
+                    <b> {{chat?.playerName}}:</b>{{chat?.message}}
                 </div>
+
             </div>
 
             <input type="text " (keyup.enter)="sendMessage() " [(ngModel)]="chatMessageToSend ">

@@ -118,8 +118,8 @@ const getFilteredPlayers = (playersIDS, players) => {
 const getMappedPlayersData = (playersIDS, players, winningOrder) => {
     const filterdPlayers = getFilteredPlayers(playersIDS, players);
     return filterdPlayers.map((filteredPlayer) => {
-        const positionIndex = winningOrder.indexOf(filteredPlayer.playersID);
-        return { playerID: filteredPlayer.playerID, playerName: filteredPlayer.playerName, noOfCards: Array(filteredPlayer.currentCards.length).fill(1), position: positionIndex >= 0 ? positionIndex + 1 : 0 };
+        const positionIndex = winningOrder.indexOf(filteredPlayer.playerID);
+        return { playerID: filteredPlayer.playerID, playerName: filteredPlayer.playerName, noOfCards: Array(filteredPlayer.currentCards.length).fill(1), position: positionIndex >= 0 ? (positionIndex + 1) : 0 };
     });
 }
 
