@@ -133,12 +133,14 @@ const getChatMessages = (room, allPlayers) => {
         const playerWhoSentMessage = playersInRoom.find((player) => {
             return player.playerID === room.chatMessages[i].playerID;
         })
-        const chatObject = {
-            playerName: playerWhoSentMessage.playerName,
-            message: room.chatMessages[i].message,
-            sentAt: room.chatMessages[i].sentAt
+        if (playerWhoSentMessage) {
+            const chatObject = {
+                playerName: playerWhoSentMessage.playerName,
+                message: room.chatMessages[i].message,
+                sentAt: room.chatMessages[i].sentAt
+            }
+            chatMessages.push(chatObject);
         }
-        chatMessages.push(chatObject);
     }
     return chatMessages;
 }
