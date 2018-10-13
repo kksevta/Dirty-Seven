@@ -125,7 +125,7 @@ export const getNewCard = (playerID) => {
     const room = getRoomFromPlayerID(allRooms, playerID);
 
     if (room) {
-        if (canPlayerGetNewCard(playerID, allRooms)) {
+        if (canPlayerGetNewCard(playerID, room)) {
             let roomInfo: any = {
                 sevenCounter: 0
             };

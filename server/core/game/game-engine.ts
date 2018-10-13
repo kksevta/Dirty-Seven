@@ -29,8 +29,8 @@ export const canPlayerStartGame = (playerID, room) => {
     return room.canStartedBy === playerID && room.currentPlayers.length > 1;
 }
 
-export const canPlayerGetNewCard = (playerID, allRooms) => {
-    return true;   // TO DO need to implement
+export const canPlayerGetNewCard = (playerID, room) => {
+    return room.playerTurn === playerID;
 }
 
 export const getAllCardsInRoom = (room, allPlayers) => {
@@ -65,8 +65,8 @@ export const getNewCardsForPlayerAfterGet = (room, player, allPlayers, allCards)
 export const getRoomStateWhenPlayerLeft = (room, playerID) => {
     if (room) {
         let roomInfo = { ...room };
-        const index = room.currentPlayers.indexOf(playerID);
-        if (index >= 0 && room.active && !room.finished) {
+        const index = roomInfo.currentPlayers.indexOf(playerID);
+        if (index >= 0 && roomInfo.active && !roomInfo.finished) {
             roomInfo = {
                 ...roomInfo,
                 currentPlayers:
@@ -91,8 +91,8 @@ export const getRoomStateWhenPlayerLeft = (room, playerID) => {
             }
         }
 
-        if (roomInfo.currentPlayers && room.started) {
-            const playersNotWon = getPlayersNotWonInRoom(room);
+        if (roomInfo.currentPlayers && roomInfo.started) {
+            const playersNotWon = getPlayersNotWonInRoom(roomInfo);
             if (playersNotWon && playersNotWon.length === 1) {
                 roomInfo = {
                     ...roomInfo,
@@ -178,7 +178,7 @@ export const getUpdatedRoomStateWhenCardPlayed = (room, player, playedCardDetail
     if (playedCardDetails.value === 'A') {
         roomInfo = {
             ...roomInfo,
-            playerTurn: getNextPlayerIDForTurn(room, roomInfo.playerTurn)
+            playerTurn: getNextPlayerIDForTurn(roomInfo, roomInfo.playerTurn)
         }
     }
 
