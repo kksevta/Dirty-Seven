@@ -151,12 +151,14 @@ const getWinningOrderOfPlayers = (winningOrder, allPlayers) => {
         const playerWon = allPlayers.find((player) => {
             return player.playerID === winningOrder[i]
         })
-        const winData = {
-            playerID: playerWon.playerID,
-            playerName: playerWon.playerName,
-            position: i + 1
+        if (playerWon) {
+            const winData = {
+                playerID: playerWon.playerID,
+                playerName: playerWon.playerName,
+                position: i + 1
+            }
+            winningOrderData.push(winData);
         }
-        winningOrderData.push(winData);
     }
     return winningOrderData;
 }
